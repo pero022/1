@@ -58,19 +58,6 @@ text-decoration: underline;
 opacity: 0.95;
 white-space: nowrap;
 }
-.trust-strip {
-background: #fff;
-border-bottom: 1px solid #e4ecfb;
-}
-.trust-strip .container {
-display: flex;
-align-items: center;
-justify-content: space-between;
-gap: 12px;
-min-height: 38px;
-flex-wrap: wrap;
-padding: 0 0 2px;
-}
 .trust-item {
 color: #1f3a76;
 font-size: 0.83rem;
@@ -1305,7 +1292,10 @@ th, td { min-width: 120px; }
 .footer-grid { grid-template-columns: 1fr; }
 .container { padding: 0 12px; }
 .trust-strip { height: 35px; }
-.trust-strip .container { animation-duration: 15s; }
+.trust-strip .container { 
+animation: scrollText 15s linear infinite !important; 
+animation-duration: 15s; 
+}
 .trust-item { font-size: 0.75rem; padding: 0 20px; }
 .promo-strip { padding: 6px 0; }
 .promo-strip .container { 
@@ -1830,19 +1820,41 @@ margin-bottom: 20px;
 opacity: 0.9;
 }
 .hero-cta {
-background: var(--accent);
-color: white;
-border: none;
-padding: 12px 24px;
-border-radius: 8px;
-font-weight: 700;
-font-size: 1rem;
-cursor: pointer;
-transition: var(--transition);
+background: linear-gradient(135deg, var(--accent), #059669) !important;
+color: white !important;
+border: none !important;
+padding: 16px 32px !important;
+border-radius: 12px !important;
+font-weight: 800 !important;
+font-size: 1.1rem !important;
+cursor: pointer !important;
+transition: all var(--transition) !important;
+box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3) !important;
+text-transform: uppercase !important;
+letter-spacing: 1px !important;
+position: relative !important;
+overflow: hidden !important;
+}
+.hero-cta::before {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+transition: left 0.5s ease;
+}
+.hero-cta:hover::before {
+left: 100%;
 }
 .hero-cta:hover {
-background: #059669;
-transform: translateY(-2px);
+background: linear-gradient(135deg, #059669, #047857);
+transform: translateY(-3px) scale(1.05);
+box-shadow: 0 12px 32px rgba(16, 185, 129, 0.4);
+}
+.hero-cta:active {
+transform: translateY(-1px) scale(1.02);
 }
 /* Featured Products Carousel */
 .featured-carousel {
@@ -1979,7 +1991,10 @@ color: #FFB3C7;
 @media (max-width: 480px) {
 .container { padding: 0 8px; }
 .trust-strip { height: 32px; }
-.trust-strip .container { animation-duration: 12s; }
+.trust-strip .container { 
+animation: scrollText 12s linear infinite !important; 
+animation-duration: 12s; 
+}
 .trust-item { font-size: 0.7rem; padding: 0 15px; }
 .icon-btn { font-size: 0.75rem; padding: 6px 8px; }
 .login-btn { font-size: 0.75rem; padding: 6px 10px; min-width: 70px; }
@@ -2003,7 +2018,10 @@ color: #FFB3C7;
 @media (max-width: 380px) {
 .container { padding: 0 6px; }
 .trust-strip { height: 30px; }
-.trust-strip .container { animation-duration: 10s; }
+.trust-strip .container { 
+animation: scrollText 10s linear infinite !important; 
+animation-duration: 10s; 
+}
 .trust-item { font-size: 0.65rem; padding: 0 12px; }
 .category-grid { grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); }
 .category-card { min-width: 90px; padding: 8px; }
@@ -2017,12 +2035,7 @@ color: #FFB3C7;
 .primary-btn, .ghost-btn { font-size: 0.7rem; padding: 6px 8px; }
 }
 
-/* Rustige scrollende text animatie van links naar rechts */
-@keyframes scrollTextSlow {
-0% { transform: translateX(-50%); }
-100% { transform: translateX(0%); }
-}
-
+/* Werkende scrollende trust strip */
 .trust-strip {
 overflow: hidden;
 background: #fff;
@@ -2033,14 +2046,19 @@ display: flex;
 align-items: center;
 }
 
-.trust-strip .container {
+.trust-strip .scroll-container {
 display: flex;
-animation: scrollTextSlow 30s linear infinite;
+animation: scrollText 20s linear infinite;
 width: max-content;
 }
 
-.trust-strip .container:hover {
+.trust-strip .scroll-container:hover {
 animation-play-state: paused;
+}
+
+@keyframes scrollText {
+0% { transform: translateX(0); }
+100% { transform: translateX(-50%); }
 }
 
 .trust-item {
@@ -2052,7 +2070,6 @@ padding: 0 50px;
 flex-shrink: 0;
 }
 
-
 </style>
 </head>
 <body>
@@ -2063,14 +2080,27 @@ flex-shrink: 0;
 <a href="#" data-nav="delivery">Voor 23:59 besteld, morgen in huis*</a>
 </div>
 </div>
-<div class="trust-strip">
-<div class="container">
-<span class="trust-item">Gratis verzending vanaf 25,-</span>
-<span class="trust-item">Bezorging dezelfde dag mogelijk</span>
-<span class="trust-item">Gratis retourneren</span>
-<span class="trust-item">Ontdek 4 klantvoordelen</span>
+<div class="trust-strip" style="overflow:hidden;background:#fff;border-bottom:1px solid #e4ecfb;position:relative;height:40px;display:flex;align-items:center;">
+<div class="scroll-container" style="display:flex;animation:scrollText 20s linear infinite;width:max-content;white-space:nowrap;">
+<span class="trust-item" style="color:#1f3a76;font-size:0.83rem;font-weight:700;white-space:nowrap;padding:0 50px;flex-shrink:0;">Gratis verzending vanaf 25,-</span>
+<span class="trust-item" style="color:#1f3a76;font-size:0.83rem;font-weight:700;white-space:nowrap;padding:0 50px;flex-shrink:0;">Bezorging dezelfde dag mogelijk</span>
+<span class="trust-item" style="color:#1f3a76;font-size:0.83rem;font-weight:700;white-space:nowrap;padding:0 50px;flex-shrink:0;">Gratis retourneren</span>
+<span class="trust-item" style="color:#1f3a76;font-size:0.83rem;font-weight:700;white-space:nowrap;padding:0 50px;flex-shrink:0;">Ontdek 4 klantvoordelen</span>
+<span class="trust-item" style="color:#1f3a76;font-size:0.83rem;font-weight:700;white-space:nowrap;padding:0 50px;flex-shrink:0;">Gratis verzending vanaf 25,-</span>
+<span class="trust-item" style="color:#1f3a76;font-size:0.83rem;font-weight:700;white-space:nowrap;padding:0 50px;flex-shrink:0;">Bezorging dezelfde dag mogelijk</span>
+<span class="trust-item" style="color:#1f3a76;font-size:0.83rem;font-weight:700;white-space:nowrap;padding:0 50px;flex-shrink:0;">Gratis retourneren</span>
+<span class="trust-item" style="color:#1f3a76;font-size:0.83rem;font-weight:700;white-space:nowrap;padding:0 50px;flex-shrink:0;">Ontdek 4 klantvoordelen</span>
 </div>
 </div>
+<style>
+@keyframes scrollText {
+0% { transform: translateX(-50%); }
+100% { transform: translateX(0); }
+}
+.trust-strip .scroll-container:hover {
+animation-play-state: paused;
+}
+</style>
 <header class="topbar">
 <div class="container topbar-inner">
 <div class="logo" data-nav="home">
@@ -2086,7 +2116,7 @@ Certo<span>Deals</span>
 </div>
 <div class="header-actions">
 <a href="tel:085-1234567" class="icon-btn" style="background: var(--accent); color: white; border-color: var(--accent);">
-📞 085-1234567
+? 085-1234567
 </a>
 <button class="icon-btn" data-nav="wishlist">Verlanglijst <span id="wishlistCount" class="counter">0</span></button>
 <div style="position: relative;">
@@ -2126,6 +2156,20 @@ Certo<span>Deals</span>
 </div>
 </div>
 <div class="small-line">KVK: KVK_PLACEHOLDER | BTW: BTW_PLACEHOLDER | Adres: ADRES_PLACEHOLDER</div>
+<div style="margin-top: 20px; text-align: center;">
+<div style="display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;">
+<div style="display: flex; align-items: center; gap: 8px;">
+<a href="https://www.thuiswinkel.org/ledenlijst/consumenten-webshops/alle-leden" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+<img src="https://i.ibb.co/6yF3X4K/thuiswinkel-waarborg-logo.png" alt="Thuiswinkel Waarborg Certificaat" style="width: 120px; height: 40px; object-fit: contain;" />
+<span style="color: #d9e3f8; font-size: 0.85rem; font-weight: 600;">Thuiswinkel Waarborg</span>
+</a>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+<div style="width: 40px; height: 40px; background: linear-gradient(135deg, #28a745, #20c997); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;">? ?</div>
+<span style="color: #d9e3f8; font-size: 0.85rem; font-weight: 600;">Veilig Betalen</span>
+</div>
+</div>
+</div>
 </div>
 </footer>
 <script>
@@ -2664,7 +2708,7 @@ ${isPopular ? '<span class="popular-badge">Populair</span>' : ''}
 <div class="product-content">
 ${viewingCount > 0 ? `
 <div class="social-proof">
-<span class="viewing-now">? ${viewingCount} bekijken nu</span>
+<span class="viewing-now">${viewingCount} bekijken nu</span>
 ${isPopular ? `<span class="last-sold">Verkocht ${lastSoldHours}h geleden</span>` : ''}
 </div>
 ` : ''}
@@ -2688,15 +2732,16 @@ ${p.installCost ? `<div class="pill">+ ${euro(p.installCost)} installatie</div>`
 }
 function withPage(html) {
 return `<section class="page">${html}</section>`;
+}
 function pageHome() {
 const topDeals = [...allProducts()].sort((a, b) => b.discount - a.discount).slice(0, 8);
 const popular = [...allProducts()].sort((a, b) => b.popularity - a.popularity).slice(0, 8);
 return withPage(`
 <div class="hero-banner">
 <div class="hero-content">
-<h1 class="hero-title">?? Exclusieve A-merk Deals</h1>
+<h1 class="hero-title">Exclusieve A-merk Deals</h1>
 <p class="hero-subtitle">Bespaar 25-40% op high-end electronica en huishoudelijke apparaten</p>
-<button class="hero-cta" onclick="navigate({ page: 'listing', sort: 'pop' }, true)">Shop Nu ?</button>
+<button class="hero-cta" onclick="navigate({ page: 'listing', sort: 'pop' }, true)" style="background: linear-gradient(135deg, #10b981, #059669) !important; color: white !important; border: none !important; padding: 16px 32px !important; border-radius: 12px !important; font-weight: 800 !important; font-size: 1.1rem !important; cursor: pointer !important; transition: all 0.22s ease !important; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3) !important; text-transform: uppercase !important; letter-spacing: 1px !important; position: relative !important; overflow: hidden !important;">Shop Nu</button>
 </div>
 </div>
 <div class="benefits-row">
@@ -3572,7 +3617,6 @@ document.querySelectorAll('.pd-thumb').forEach((thumb, idx) => {
 });
 }
 // Initialize gallery when product detail page loads
-document.addEventListener('DOMContentLoaded', () => {
 // Override the render function to initialize gallery for product details
 const originalRender = window.render;
 window.render = function(state) {
@@ -3594,14 +3638,12 @@ window.render = function(state) {
   }
   return result;
 };
-});
 }
+
 initNav();
 updateCounters();
 const start = history.state || { page: "home" };
 render(start);
 </script>
-</body>
-</html>
 </body>
 </html>
