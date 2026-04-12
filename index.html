@@ -1309,10 +1309,27 @@ animation-duration: 15s;
 .mobile-sidebar { display: block; }
 .mobile-sidebar-overlay { display: none; }
 .nav-inner { overflow-x: auto; white-space: nowrap; }
-/* Prevent content overflow on mobile */
+/* Force mobile layout fixes */
+html, body {
+touch-action: manipulation;
+-webkit-text-size-adjust: 100%;
+-webkit-tap-highlight-color: transparent;
+overscroll-behavior: none;
+}
+body {
+overflow-x: hidden;
+overflow-y: auto;
+width: 100vw;
+min-width: 320px;
+max-width: 100vw;
+position: relative;
+}
 * { box-sizing: border-box; }
-body { overflow-x: hidden; }
-.main-container { max-width: 100%; overflow: hidden; }
+.main-container {
+max-width: 100%;
+overflow: hidden;
+width: 100%;
+}
 }
 .trust-item { font-size: 0.75rem; padding: 0 20px; }
 .promo-strip { padding: 6px 0; }
