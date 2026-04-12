@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>CertoDeals - Elektronica & Huisapparaten</title>
 <style>
 :root {
@@ -288,6 +288,9 @@ white-space: nowrap;
 background: var(--royal-blue);
 color: #fff;
 box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+display: block !important;
+visibility: visible !important;
+position: relative !important;
 }
 .nav-inner {
 display: flex;
@@ -481,6 +484,12 @@ margin: 0;
 font-size: 0.9rem;
 color: var(--muted);
 min-height: 36px;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+overflow: hidden;
+text-overflow: ellipsis;
+line-height: 1.3;
 }
 .price-line { display: flex; align-items: baseline; gap: 7px; flex-wrap: wrap; }
 .old-price { text-decoration: line-through; color: #8d98ac; font-size: 0.9rem; }
@@ -1296,14 +1305,17 @@ th, td { min-width: 120px; }
 animation: scrollText 15s linear infinite !important; 
 animation-duration: 15s; 
 }
+.hamburger-btn { display: flex; }
+.mobile-sidebar { display: block; }
+.mobile-sidebar-overlay { display: none; }
+.nav-inner { overflow-x: auto; white-space: nowrap; }
+/* Prevent content overflow on mobile */
+* { box-sizing: border-box; }
+body { overflow-x: hidden; }
+.main-container { max-width: 100%; overflow: hidden; }
+}
 .trust-item { font-size: 0.75rem; padding: 0 20px; }
 .promo-strip { padding: 6px 0; }
-.promo-strip .container { 
-flex-direction: column; 
-gap: 6px; 
-padding: 0;
-text-align: center;
-}
 .topbar-inner { padding: 12px 0; }
 .search-wrap { margin: 12px 0; }
 .header-actions { gap: 8px; flex-wrap: wrap; }
@@ -1351,29 +1363,6 @@ border: none;
 font-size: 1.5rem;
 cursor: pointer;
 padding: 8px;
-}
-.nav-row {
-position: fixed;
-top: 0;
-left: -100%;
-width: 80%;
-max-width: 300px;
-height: 100vh;
-background: white;
-z-index: 200;
-transition: left 0.3s ease;
-box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-}
-.nav-row.active {
-left: 0;
-}
-.nav-inner {
-flex-direction: column;
-padding: 20px;
-}
-.nav-item {
-padding: 16px 0;
-border-bottom: 1px solid #f1f5f9;
 }
 .mobile-overlay {
 display: none;
@@ -2100,9 +2089,135 @@ flex-shrink: 0;
 .trust-strip .scroll-container:hover {
 animation-play-state: paused;
 }
+
+/* Hamburger menu styles */
+.hamburger-btn {
+display: none;
+flex-direction: column;
+justify-content: space-between;
+width: 24px;
+height: 18px;
+background: none;
+border: none;
+cursor: pointer;
+padding: 0;
+margin-right: 12px;
+}
+
+.hamburger-btn span {
+display: block;
+height: 2px;
+width: 100%;
+background: var(--royal-blue);
+border-radius: 2px;
+transition: all var(--transition);
+}
+
+.hamburger-btn.active span:nth-child(1) {
+transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-btn.active span:nth-child(2) {
+opacity: 0;
+}
+
+.hamburger-btn.active span:nth-child(3) {
+transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Mobile sidebar */
+.mobile-sidebar {
+display: none;
+position: fixed;
+top: 0;
+left: -100%;
+width: 280px;
+height: 100vh;
+background: white;
+box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+z-index: 1000;
+transition: left var(--transition);
+overflow-y: auto;
+}
+
+.mobile-sidebar.active {
+left: 0;
+}
+
+.mobile-sidebar-overlay {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100vw;
+height: 100vh;
+background: rgba(0, 0, 0, 0.5);
+z-index: 999;
+}
+
+.mobile-sidebar-overlay.active {
+display: block;
+}
+
+.mobile-sidebar-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 16px;
+border-bottom: 1px solid #e7edf8;
+background: var(--royal-blue);
+color: white;
+}
+
+.mobile-sidebar-close {
+background: none;
+border: none;
+color: white;
+font-size: 24px;
+cursor: pointer;
+padding: 0;
+width: 32px;
+height: 32px;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.mobile-menu-section {
+padding: 16px 0;
+}
+
+.mobile-menu-title {
+font-size: 0.83rem;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+font-weight: 800;
+color: #6c7ea5;
+margin: 0 16px 8px;
+}
+
+.mobile-menu-item {
+display: block;
+padding: 12px 16px;
+color: var(--text);
+text-decoration: none;
+border-bottom: 1px solid #f1f5f9;
+font-size: 0.96rem;
+transition: background var(--transition);
+}
+
+.mobile-menu-item:hover {
+background: #f4f8ff;
+color: var(--royal-blue);
+}
 </style>
 <header class="topbar">
 <div class="container topbar-inner">
+<button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
+<span></span>
+<span></span>
+<span></span>
+</button>
 <div class="logo" data-nav="home">
 <svg width="32" height="32" viewBox="0 0 32 32" style="margin-right: 8px;">
 <rect width="32" height="32" rx="8" fill="var(--royal-blue)"/>
@@ -2115,9 +2230,6 @@ Certo<span>Deals</span>
 <div id="searchResults" class="search-results"></div>
 </div>
 <div class="header-actions">
-<a href="tel:085-1234567" class="icon-btn" style="background: var(--accent); color: white; border-color: var(--accent);">
-? 085-1234567
-</a>
 <button class="icon-btn" data-nav="wishlist">Verlanglijst <span id="wishlistCount" class="counter">0</span></button>
 <div style="position: relative;">
 <button class="icon-btn" data-nav="cart">Winkelmand <span id="cartCount" class="counter">0</span></button>
@@ -2129,9 +2241,38 @@ Certo<span>Deals</span>
 </div>
 </div>
 </header>
-<div class="nav-row">
-<div class="container nav-inner" id="navCategories"></div>
+
+<!-- Mobile Sidebar -->
+<div class="mobile-sidebar-overlay" id="mobileSidebarOverlay"></div>
+<div class="mobile-sidebar" id="mobileSidebar">
+<div class="mobile-sidebar-header">
+<span>Menu</span>
+<button class="mobile-sidebar-close" id="mobileSidebarClose">&times;</button>
 </div>
+<div class="mobile-menu-section">
+<div class="mobile-menu-title">Categorieën</div>
+<a href="#" class="mobile-menu-item" data-nav="category" data-category="Elektronica">Elektronica</a>
+<a href="#" class="mobile-menu-item" data-nav="category" data-category="Keukenapparatuur">Keukenapparatuur</a>
+<a href="#" class="mobile-menu-item" data-nav="category" data-category="Witgoed">Witgoed</a>
+</div>
+<div class="mobile-menu-section">
+<div class="mobile-menu-title">Account</div>
+<a href="#" class="mobile-menu-item" data-nav="login">Inloggen</a>
+<a href="#" class="mobile-menu-item" data-nav="wishlist">Verlanglijst</a>
+<a href="#" class="mobile-menu-item" data-nav="cart">Winkelmand</a>
+</div>
+<div class="mobile-menu-section">
+<div class="mobile-menu-title">Service</div>
+<a href="#" class="mobile-menu-item" data-nav="contact">Contact</a>
+<a href="#" class="mobile-menu-item" data-nav="returns">Retourbeleid</a>
+<a href="#" class="mobile-menu-item" data-nav="delivery">Levertijden & bezorging</a>
+<a href="#" class="mobile-menu-item" data-nav="tracking">Order tracking</a>
+</div>
+</div>
+
+<nav class="nav-row">
+<div class="container nav-inner" id="navCategories"></div>
+</nav>
 </header>
 <main class="container">
 <div id="app"></div>
@@ -3197,8 +3338,8 @@ about: () => pageInfo("Over ons", `
 <p>Alle producten worden gecontroleerd op functionaliteit en compleetheid. Zo profiteer jij van premium merken voor een slimme prijs.</p>
 `),
 contact: () => pageInfo("Contact", `
-<p>Vragen over je bestelling? Neem contact op via e-mail of WhatsApp met je ordernummer.</p>
-<p>E-mail: <strong>support@certodeals.nl</strong><br />WhatsApp: <strong>${WHATSAPP_NUMMER}</strong></p>
+<p>Vragen over je bestelling? Neem contact op via e-mail met je ordernummer.</p>
+<p>E-mail: <strong>support@certodeals.nl</strong></p>
 <p>Wij reageren doorgaans binnen 24 uur op werkdagen.</p>
 `),
 returns: () => pageInfo("Retourbeleid", `
@@ -3642,6 +3783,53 @@ window.render = function(state) {
 
 initNav();
 updateCounters();
+// Mobile sidebar functionality
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileSidebar = document.getElementById('mobileSidebar');
+const mobileSidebarOverlay = document.getElementById('mobileSidebarOverlay');
+const mobileSidebarClose = document.getElementById('mobileSidebarClose');
+
+function openMobileSidebar() {
+mobileSidebar.classList.add('active');
+mobileSidebarOverlay.classList.add('active');
+hamburgerBtn.classList.add('active');
+document.body.style.overflow = 'hidden';
+}
+
+function closeMobileSidebar() {
+mobileSidebar.classList.remove('active');
+mobileSidebarOverlay.classList.remove('active');
+hamburgerBtn.classList.remove('active');
+document.body.style.overflow = '';
+}
+
+if (hamburgerBtn) {
+hamburgerBtn.addEventListener('click', openMobileSidebar);
+}
+
+if (mobileSidebarClose) {
+mobileSidebarClose.addEventListener('click', closeMobileSidebar);
+}
+
+if (mobileSidebarOverlay) {
+mobileSidebarOverlay.addEventListener('click', closeMobileSidebar);
+}
+
+// Handle mobile menu navigation
+document.querySelectorAll('.mobile-menu-item').forEach(item => {
+item.addEventListener('click', (e) => {
+e.preventDefault();
+closeMobileSidebar();
+const nav = item.dataset.nav;
+const category = item.dataset.category;
+if (nav === 'category' && category) {
+render({ page: 'category', category });
+} else {
+render({ page: nav });
+}
+});
+});
+
 const start = history.state || { page: "home" };
 render(start);
 </script>
